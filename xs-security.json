@@ -1,5 +1,53 @@
 {
-  "scopes": [],
-  "attributes": [],
-  "role-templates": []
+  "xsappname" : "soa",
+  "tenant-mode" : "dedicated",
+  "scopes": [
+    {
+      "name" : "$XSAPPNAME.Viewer",
+      "description" : "Someone can able to view the data"
+    },
+    {
+      "name" : "$XSAPPNAME.Admin",
+      "description" : "Someone can able to perform CRUD the data"
+    }
+  ],
+  "attributes": [
+    {
+      "name" : "BankName",
+      "description" : "Bank Name Property",
+      "valueType" : "string"
+     }
+  ],
+  "role-templates": [
+    {
+      "name" : "Viewer",
+      "description" : "View all data from our Catalog Service",
+      "default-role-name" : "Viewer: Authorizd to Read All Data",
+      "scope-references" : [
+        "$XSAPPNAME.Viewer"
+      ],
+      "attribute-references" : [
+        {
+          "name" : "BankName"
+        }
+      ]
+    },
+    {
+      "name" : "Admin",
+      "description" : "Edit, Delete the data",
+      "scope-references" : [
+        "$XSAPPNAME.Admin"
+      ]
+    }
+  ],
+  "authorities" : [
+    "$ACCEPT_GRANTED_AUTHORITIES"
+  ],
+  "oauth2-configuration" : {
+    "token-validity" : 9000,
+    "redirect-uris" : [
+      "https://*.cfapps.us10-001.hana.ondemand.com/login/callback"
+    ]
+  },
+  "xsenableasyncservice" : "true"
 }

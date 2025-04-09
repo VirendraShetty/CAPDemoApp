@@ -2,7 +2,7 @@ using { soa.db.master, soa.db.trasaction } from '../db/data-model';
 using { soa.cds } from '../db/CDSView';
  
  
-service CatalogService@(path: 'CatalogService'){
+service CatalogService@(path: 'CatalogService', requires:'authenticated-user'){
     // Normal Function
     function getHighestOrder() returns POService ;
     function utilsUUID() returns String ;

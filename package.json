@@ -29,6 +29,9 @@
   "cds": {
     "sql": {
       "native_hana_associations": false
+    },
+    "requires": {
+      "auth": "xsuaa"
     }
   },
   "sapux": [
