@@ -1,0 +1,88 @@
+### Service Document
+http://localhost:4004/odata/v4/CatalogService
+ 
+### Metadata
+http://localhost:4004/odata/v4/CatalogService/$metadata
+ 
+### GET - All Employees Data
+http://localhost:4004/odata/v4/CatalogService/EmployeeS
+ 
+### POST - Create Employee Record
+POST http://localhost:4004/odata/v4/CatalogService/EmployeeS
+Content-Type: application/json
+ 
+{
+ 
+      "Currency_code": "USD",
+      "accountNumber": "9988776655",
+      "bankId": "121000358",
+      "bankName": "Central Bank of India",
+      "email": "Sumit.Antil@itelo.info",
+      "language": "E",
+      "loginName": "SUMITA",
+      "nameFirst": "Sumit",
+      "nameInitials": null,
+      "nameLast": "Antil",
+      "nameMiddle": null,
+      "phoneNumber": null,
+      "salaryAmount": "76239.00",
+      "sex": "M"
+}
+ 
+### GET - Single Employee Record
+http://localhost:4004/odata/v4/CatalogService/EmployeeS/f2a76977-5255-4b16-be03-0963f1b6a2e2
+ 
+### UPDATE - Employee Record
+PATCH http://localhost:4004/odata/v4/CatalogService/EmployeeS/f2a76977-5255-4b16-be03-0963f1b6a2e2
+Content-Type: application/json
+ 
+{
+    "email" : "Sumit.Antil@gmail.com"
+}
+ 
+### DELETE - Employee Record
+DELETE http://localhost:4004/odata/v4/CatalogService/EmployeeS/4a75f0ff-97f4-4f9e-a036-1a1e33dfd23b
+ 
+### GET - PO
+http://localhost:4004/odata/v4/CatalogService/POService
+ 
+ 
+### GET - Single PO
+http://localhost:4004/odata/v4/CatalogService/POService/74867AD200E41EDBA5D8B0C98DC28052
+ 
+### GET - PO along with Items
+http://localhost:4004/odata/v4/CatalogService/POService/74867AD200E41EDBA5D8B0C98DC28052?$expand=Items
+ 
+### Count - POs
+http://localhost:4004/odata/v4/CatalogService/POService/$count
+ 
+### Filter POs
+http://localhost:4004/odata/v4/CatalogService/EmployeeS?$filter=loginName eq 'BROWNF'
+ 
+### Filter with Pattern
+http://localhost:4004/odata/v4/CatalogService/EmployeeS?$filter=Contains(nameLast,'F')
+ 
+### Pagination - TOP
+http://localhost:4004/odata/v4/CatalogService/EmployeeS?$top=5
+ 
+### Pagination - TOP & SKIP
+http://localhost:4004/odata/v4/CatalogService/EmployeeS?$top=5&$skip=5
+ 
+### Filter Columns
+http://localhost:4004/odata/v4/CatalogService/EmployeeS?$select=nameFirst,loginName,nameLast
+
+### Calling Bound Action
+POST http://localhost:4004/odata/v4/CatalogService/POService(74867AD200E41EDBA5D8B0C98DC28052)/CatalogService.increasedPrice
+Content-Type: application/json
+ 
+{}
+ 
+
+### Get highest order from the dataset
+http://localhost:4004/odata/v4/CatalogService/getHighestOrder()
+
+### GET - Employee Data Read Only
+http://localhost:4004/odata/v4/FunctionExampleService/EmployeeService
+
+### GET - Employee Data Read Only
+# http://localhost:4004/odata/v4/my/EmployeeService
