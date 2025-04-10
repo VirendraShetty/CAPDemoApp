@@ -32,3 +32,18 @@ mta_archives/
 
 # @cap-js/cds-typer
 @cds-models
+
+package-lock.json/
+
+node_modules/
+resources/
+dist/
+.scp/
+Makefile*.mta
+mta_archives
+mta-*
+resources
+archive.zip
+.*_mta_build_tmp
+db/.env
+eslint.config.mjs
