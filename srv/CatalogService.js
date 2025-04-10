@@ -67,7 +67,26 @@ module.exports = cds.service.impl(async function () {
                 // Throw some error
                 request.error(500, "This much salary is not allowed..!")
             }
+        }),
+        this.on('userLogin', async(request, response) => {
+            try {
+                var arrUserLogin = [];
+                var struUserLogin = {};
+                struUserLogin.username = request.data.username;
+                struUserLogin.pwd = request.data.pwd;
+                arrUserLogin.push(struUserLogin);
+                // Declare promisfied class
+                const dbClass = require("sap-hdbext-promisfied");
+                const hdbext = require("@sap/hdbext");
+                let dbConn = new dbClass(await dbClass.createConnection(db.operations.credentials));
+                const sp = await dbClass.loadProcedurePromisfied(hdbext, null, 'createUser');
+                const output = await dbConn.callProcedurePromisified(sp,arrUserLogin)
+                return output;
+            } catch (error) {
+                return "Error" + error.toString();
+            }
         })
+     
 })
 
 // Second way

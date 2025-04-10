@@ -1,0 +1,27 @@
+PROCEDURE "createUser"(
+   IN P_USER TABLE (
+      "USERNAME"      NVARCHAR(32),
+      "PWD"       NVARCHAR(32)
+   ),
+   OUT   P_MESSAGE NVARCHAR(255)
+ )
+   LANGUAGE SQLSCRIPT
+   SQL SECURITY INVOKER
+   --DEFAULT SCHEMA <default_schema_name>
+   AS
+BEGIN
+   /*************************************
+       Write your procedure logic
+   *************************************/
+ 
+   INSERT INTO "SOA_DB_MASTER_USER"
+         (
+            "USERNAME",
+            "PWD"
+         )
+         SELECT "USERNAME",
+                "PWD"
+                FROM :P_USER;
+ 
+   P_MESSAGE := 'Creation Successful';
+END

@@ -50,21 +50,63 @@ modules:
         - npm run build:cf
       supported-platforms:
         []
+  - name: SOA-destination-content
+    type: com.sap.application.content
+    requires:
+      - name: SOA-destination-service
+        parameters:
+          content-target: true
+      - name: SOA-repo-host
+        parameters:
+          service-key:
+            name: SOA-repo-host-key
+      - name: SOA-auth
+        parameters:
+          service-key:
+            name: SOA-auth-key
+    parameters:
+      content:
+        instance:
+          destinations:
+            - Name: manageorder_SOA_repo_host
+              ServiceInstanceName: SOA-html5-service
+              ServiceKeyName: SOA-repo-host-key
+              sap.cloud.service: manageorder
+            - Authentication: OAuth2UserTokenExchange
+              Name: manageorder_SOA_auth
+              ServiceInstanceName: SOA-auth
+              ServiceKeyName: SOA-auth-key
+              sap.cloud.service: manageorder
+          existing_destinations_policy: ignore
+    build-parameters:
+      no-source: true
+
+  - name: SOA
+    type: approuter.nodejs
+    path: app/
+    parameters:
+      keep-existing-routes: true
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: srv-api
+        group: destinations
+        properties:
+          name: srv-api # must be used in xs-app.json as well
+          url: ~{srv-url}
+          forwardAuthToken: true
+      - name: SOA-auth
+    provides:
+      - name: app-api
+        properties:
+          app-protocol: ${protocol}
+          app-uri: ${default-uri}
 resources:
   - name: SOA-db
     type: com.sap.xs.hdi-container
     parameters:
       service: hana
       service-plan: hdi-shared
-  - name: SOA-auth
-    type: org.cloudfoundry.managed-service
-    parameters:
-      config:
-        tenant-mode: dedicated
-        xsappname: SOA-${org}-${space}
-      path: ./xs-security.json
-      service: xsuaa
-      service-plan: application
   - name: SOA-repo-host
     type: org.cloudfoundry.managed-service
     parameters:
@@ -75,20 +117,20 @@ resources:
     type: org.cloudfoundry.managed-service
     parameters:
       config:
-        HTML5Runtime_enabled: false
-        init_data:
-          instance:
-            destinations:
-              - Authentication: NoAuthentication
-                Name: ui5
-                ProxyType: Internet
-                Type: HTTP
-                URL: https://ui5.sap.com
-            existing_destinations_policy: update
+        HTML5Runtime_enabled: true
         version: 1.0.0
       service: destination
       service-name: SOA-destination-service
       service-plan: lite
+  - name: SOA-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      config:
+        tenant-mode: dedicated
+        xsappname: SOA-${space}
+      path: ./xs-security.json
+      service: xsuaa
+      service-plan: application
 parameters:
   deploy_mode: html5-repo
   enable-parallel-deployments: true

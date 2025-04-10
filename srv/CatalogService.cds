@@ -1,8 +1,9 @@
 using { soa.db.master, soa.db.trasaction } from '../db/data-model';
 using { soa.cds } from '../db/CDSView';
  
+// You have to enforce authorization at the end point level
  
-service CatalogService@(path: 'CatalogService', requires:'authenticated-user'){
+service CatalogService@(path: 'CatalogService', requires: 'authenticated-user'){
     // Normal Function
     function getHighestOrder() returns POService ;
     function utilsUUID() returns String ;
@@ -55,6 +56,7 @@ service CatalogService@(path: 'CatalogService', requires:'authenticated-user'){
  
     // Normal Action
     action helloCap(name : String(100)) returns String(100);
+    action userLogin(username: String(32), pwd : String(32)) returns String(100);
  
 }
  
@@ -62,4 +64,3 @@ service CatalogService@(path: 'CatalogService', requires:'authenticated-user'){
  
 // Apart form Action & Functions is thre any otehr way to perform any operation
 // api.sap.com --> Example --> Import and conusme service --> Remote Service()
- 
